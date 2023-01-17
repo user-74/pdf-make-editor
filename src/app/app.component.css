@@ -1,0 +1,52 @@
+.app-ace-editor {
+    height: 100%;
+    flex: 1;
+}
+
+.pdf-container {
+    height: 100%;
+    flex: 1;
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid grey;
+}
+
+.main-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.button-row {
+    padding: 4px;
+    border-bottom: 1px solid grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-upload {
+    display: flex;
+    align-items: center;
+}
+
+.upload-btn {
+    margin-left: 12px;
+}

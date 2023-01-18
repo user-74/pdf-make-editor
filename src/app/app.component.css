@@ -43,10 +43,22 @@ h1 {
 }
 
 .file-upload {
+    flex: 0.7;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .upload-btn {
     margin-left: 12px;
+}
+
+.buttons {
+    display: flex;
+    column-gap: 5px;
+    justify-content: flex-end;
+}
+
+.flex-1 {
+    flex: 1;
 }

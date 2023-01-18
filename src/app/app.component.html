@@ -1,17 +1,21 @@
 <div class="main-container">
     <div class="button-row">
-        <h1>JSON to PDF</h1>
+        <h1 class="flex-1">JSON to PDF</h1>
         <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload
-            accept="image/png, image/jpeg">
+            accept="image/png, image/jpeg" />
         <div class="file-upload">
-
             {{fileName || "Upload Background Image"}}
             <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
                 <mat-icon>attach_file</mat-icon>
             </button>
-            </div>
-        <button mat-raised-button color="primary" (click)="generate()">Generate</button>
         </div>
+        <div class="buttons flex-1">
+            <button mat-raised-button color="primary" (click)="download()">Download JSON</button>
+            <button mat-raised-button color="primary" (click)="minify()">Minify</button>
+            <button mat-raised-button color="primary" (click)="prettify()">Prettify</button>
+            <button mat-raised-button color="primary" (click)="generate()">Generate PDF</button>
+        </div>
+    </div>
     <div class="content-container">
         <div class="app-ace-editor" #editor></div>
         <iframe class="pdf-container" [src]="url" #pdfcontainer></iframe>

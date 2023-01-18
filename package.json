@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "deploy": "gh-pages -d dist/pdfmaker-playground-app"
   },
   "private": true,
   "dependencies": {
@@ -40,7 +41,8 @@
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "5.44.0",
     "@typescript-eslint/parser": "5.44.0",
-    "eslint": "^8.28.0",
+    "eslint": "^8.32.0",
+    "gh-pages": "^4.0.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

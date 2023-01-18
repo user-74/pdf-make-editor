@@ -83,6 +83,28 @@ export class AppComponent implements OnInit, AfterViewInit {
     localStorage.setItem("dd", JSON.stringify(docDefinition));
   }
 
+  minify() {
+    this.aceEditor.session.setValue(JSON.stringify(JSON.parse(this.aceEditor.getValue())))
+  }
+
+  prettify() {
+    this.aceEditor.session.setValue(JSON.stringify(JSON.parse(this.aceEditor.getValue()), null, '\t'));
+  }
+
+  download() {
+    const blob = new Blob([this.aceEditor.getValue()], { type: 'application/json' })
+    const url = window.URL.createObjectURL(blob)
+
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = url;
+    a.download = "file.json";
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
   generate() {
     this.reload()
   }

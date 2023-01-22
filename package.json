@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "predeploy": "ng build --configuration production && cp ./CNAME ./dist/pdfmaker-playground-app/CNAME",
     "deploy": "gh-pages -d dist/pdfmaker-playground-app"
   },
   "private": true,

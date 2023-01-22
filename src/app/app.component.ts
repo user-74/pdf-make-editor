@@ -3,6 +3,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import * as ace from "ace-builds";
 import { createPdf } from "pdfmake/build/pdfmake";
 
+const blankPNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -41,46 +43,32 @@ export class AppComponent implements OnInit, AfterViewInit {
     ace.config.set('basePath', 'https://unpkg.com/ace-builds@1.14.0/src-noconflict');
 
     this.aceEditor = ace.edit(this.editor.nativeElement);
-    let docDefinition = {
-      pageSize: "letter",
-      content: ["Test"],
-      defaultStyle: {
-        font: 'Inter'
-      }
-    }
-
     this.aceEditor.setOptions({
       fontSize: '14px',
       theme: 'ace/theme/monokai',
       mode: 'ace/mode/json'
     })
 
-    docDefinition.defaultStyle = { font: 'Inter' }
-
-    const dd = localStorage.getItem("dd")
-    if (dd) {
-      console.log(dd)
-      docDefinition = JSON.parse(dd)
+    if (!this.load()) {
+      this.reset()
     }
-    this.aceEditor.session.setValue(JSON.stringify(docDefinition, null, '\t'));
 
-    // this.aceEditor.session.on('change', () => this.reload())
     this.reload()
   }
 
-  reload() {
+  reload(): boolean {
     if (this.aceEditor.getSession().getAnnotations().some(item => item.type == "error")) {
-      return
+      return false
     }
 
     const docDefinition = JSON.parse(this.aceEditor.getValue())
+    this.placeholderImg(docDefinition)
     const pdfDocGenerator = createPdf(docDefinition, undefined, this.fonts);
 
     pdfDocGenerator.getDataUrl((dataUrl: string) => {
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
     })
-
-    localStorage.setItem("dd", JSON.stringify(docDefinition));
+    return true
   }
 
   minify() {
@@ -105,8 +93,30 @@ export class AppComponent implements OnInit, AfterViewInit {
     a.remove();
   }
 
-  generate() {
+  save() {
+    const docDefinition = JSON.parse(this.aceEditor.getValue())
+    localStorage.setItem("dd", JSON.stringify(docDefinition));
     this.reload()
+  }
+
+  reset() {
+    const docDefinition = {
+      pageSize: "letter",
+      content: ["Test"],
+      defaultStyle: {
+        font: 'Inter'
+      }
+    }
+    this.aceEditor.session.setValue(JSON.stringify(docDefinition, null, '\t'));
+  }
+
+  load(): boolean {
+    const dd = localStorage.getItem("dd")
+    if (!dd) {
+      return false;
+    }
+    this.aceEditor.session.setValue(dd);
+    return true;
   }
 
   onFileSelected(event: Event) {
@@ -132,8 +142,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.aceEditor.session.setValue(JSON.stringify(docDefinition, null, '\t'))
   }
 
-  reset() {
-    localStorage.removeItem("dd")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  placeholderImg(docDefinition: { [key: string]: any }) {
+    const images = docDefinition["images"]
+    Object.keys(images)
+      .filter((k: string) => images[k].startsWith("{{."))
+      .forEach((k: string) => images[k] = blankPNG)
   }
 
 }

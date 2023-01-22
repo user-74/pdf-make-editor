@@ -1,6 +1,10 @@
 <div class="main-container">
     <div class="button-row">
-        <h1 class="flex-1">JSON to PDF</h1>
+        <div class="flex-1">
+            <h1>JSON to PDF</h1>
+            <button mat-raised-button color="primary" (click)="reset()">RESET</button>
+            <button mat-raised-button color="primary" (click)="load()">Load Saved</button>
+        </div>
         <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload
             accept="image/png, image/jpeg" />
         <div class="file-upload">
@@ -13,7 +17,7 @@
             <button mat-raised-button color="primary" (click)="download()">Download JSON</button>
             <button mat-raised-button color="primary" (click)="minify()">Minify</button>
             <button mat-raised-button color="primary" (click)="prettify()">Prettify</button>
-            <button mat-raised-button color="primary" (click)="generate()">Generate PDF</button>
+            <button mat-raised-button color="primary" (click)="save()">Save</button>
         </div>
     </div>
     <div class="content-container">

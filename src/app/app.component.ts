@@ -145,9 +145,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   placeholderImg(docDefinition: { [key: string]: any }) {
     const images = docDefinition["images"]
-    Object.keys(images)
-      .filter((k: string) => images[k].startsWith("{{."))
-      .forEach((k: string) => images[k] = blankPNG)
+    if (images) {
+      Object.keys(images)
+        .filter((k: string) => images[k].startsWith("{{."))
+        .forEach((k: string) => images[k] = blankPNG)
+    }
   }
 
 }
